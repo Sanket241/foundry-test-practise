@@ -4,6 +4,7 @@ pragma solidity ^0.8.2;
 contract Lottery{
     address public manager;
     address payable[] public Lotterist;
+    address public previousWinner;
 
     constructor(){
         manager = msg.sender;
@@ -26,8 +27,8 @@ contract Lottery{
         require(msg.sender == manager,"You are not authorized body");
         require(Lotterist.length >= 3, " There is no any participant");
         uint index = random() % Lotterist.length;
-        address winner = Lotterist[index];
-        payable(winner).transfer(getBalance()); // payable(winner).transfer(address(this).balance);
+        previousWinner = Lotterist[index];
+        payable(previousWinner).transfer(getBalance()); // payable(winner).transfer(address(this).balance);
         Lotterist = new address payable[](0);
     }
 
